@@ -22,13 +22,13 @@ class User {
   @Column()
   phone: string;
 
-  @Column({name: 'full_name'})
+  @Column({ name: 'full_name' })
   fullName: string;
 
   @Column()
   email: string;
 
-  @Column({name: 'individual_tax_number'})
+  @Column({ name: 'individual_tax_number' })
   individualTaxNumber: string;
 
   @Column()
@@ -38,10 +38,10 @@ class User {
   @Column()
   avatar: string;
 
-  @CreateDateColumn({name: 'created_at'})
+  @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
-  @UpdateDateColumn({name: 'updated_at'})
+  @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
 
   // @Expose({ name: 'avatar_url' })

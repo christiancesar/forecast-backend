@@ -1,9 +1,14 @@
-import auth from "../../../config/auth";
-import { checkRefreshTokenIsValid, createRefreshToken, invalidateRefreshToken, users } from "../../../shared/database/database";
-import { Request, Response } from "express";
-import { sign } from "jsonwebtoken";
+import { Request, Response } from 'express';
+import { sign } from 'jsonwebtoken';
+import auth from '../../../config/auth';
+import {
+  checkRefreshTokenIsValid,
+  createRefreshToken,
+  invalidateRefreshToken,
+  users,
+} from '../../../shared/database/database';
 
-export class RefreshTokenController {
+export default class RefreshTokenController {
   public async create(request: Request, response: Response): Promise<Response> {
     const userId = request.user.id;
     const { refreshToken } = request.body;
@@ -12,20 +17,23 @@ export class RefreshTokenController {
       const userExists = users.find(user => user.id === userId);
 
       if (!userExists) {
-        throw new Error("User not found!");
+        throw new Error('User not found!');
       }
 
       if (!refreshToken) {
-        throw new Error("Refresh token is required!");
+        throw new Error('Refresh token is required!');
       }
 
-      const isValidRefreshToken = checkRefreshTokenIsValid(userExists.email, refreshToken)
+      const isValidRefreshToken = checkRefreshTokenIsValid(
+        userExists.email,
+        refreshToken,
+      );
 
       if (!isValidRefreshToken) {
-        throw new Error("Refresh token is invalid.");
+        throw new Error('Refresh token is invalid.');
       }
 
-      invalidateRefreshToken(userExists.email, refreshToken)
+      invalidateRefreshToken(userExists.email, refreshToken);
 
       const { secret, expiresIn } = auth.jwt;
 

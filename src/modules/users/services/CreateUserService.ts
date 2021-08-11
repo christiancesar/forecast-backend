@@ -1,7 +1,7 @@
-import AppError from "../../../shared/errors/AppError";
-import { getCustomRepository } from "typeorm";
-import User from "../models/User";
-import UsersRepository from "../repositories/UsersRepository";
+import { getCustomRepository } from 'typeorm';
+import AppError from '../../../shared/errors/AppError';
+import User from '../models/User';
+import UsersRepository from '../repositories/UsersRepository';
 
 interface RequestDTO {
   firstName: string;
@@ -12,7 +12,6 @@ interface RequestDTO {
   password: string;
 }
 
-
 export default class CreateUserService {
   public async execute({
     email,
@@ -20,7 +19,7 @@ export default class CreateUserService {
     lastName,
     individualTaxNumber,
     password,
-    phone
+    phone,
   }: RequestDTO): Promise<User> {
     const usersRepository = getCustomRepository(UsersRepository);
 
@@ -28,7 +27,6 @@ export default class CreateUserService {
 
     if (userExist) {
       throw new AppError('Already exist  user with this email!');
-
     }
 
     const user = await usersRepository.createUser({
@@ -38,8 +36,8 @@ export default class CreateUserService {
       fullName: `${firstName} ${lastName}`,
       individualTaxNumber,
       password,
-      phone
-    })
+      phone,
+    });
     return user;
   }
 }

@@ -1,15 +1,14 @@
-import { Response, Request } from 'express';
-import { v4 as uuid } from "uuid";
+import { Request, Response } from 'express';
 import CreateUserService from '../services/CreateUserService';
 import ListUserService from '../services/ListUserService';
 import ShowUserService from '../services/ShowUserService';
 
-export class UsersController {
+export default class UsersController {
   public async index(request: Request, response: Response): Promise<Response> {
     const listUserService = new ListUserService();
     const users = await listUserService.execute();
 
-    return response.json(users)
+    return response.json(users);
   }
 
   public async show(request: Request, response: Response): Promise<Response> {
@@ -17,18 +16,12 @@ export class UsersController {
     const showUserService = new ShowUserService();
     const users = await showUserService.execute({ userId: user_id });
 
-    return response.json(users)
+    return response.json(users);
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
-    const {
-      email,
-      individualTaxNumber,
-      firstName,
-      lastName,
-      phone,
-      password
-    } = request.body;
+    const { email, individualTaxNumber, firstName, lastName, phone, password } =
+      request.body;
     const createUserServive = new CreateUserService();
     const user = await createUserServive.execute({
       email,
@@ -36,9 +29,9 @@ export class UsersController {
       individualTaxNumber,
       lastName,
       password,
-      phone
-    })
+      phone,
+    });
 
-    return response.json(user)
+    return response.json(user);
   }
 }

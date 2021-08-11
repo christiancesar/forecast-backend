@@ -1,8 +1,7 @@
-import { Request, Response } from "express";
+import { Request, Response } from 'express';
 import { sign } from 'jsonwebtoken';
-import auth from "../../../config/auth";
-import { createRefreshToken, users } from "../../../shared/database/database";
-
+import auth from '../../../config/auth';
+import { createRefreshToken, users } from '../../../shared/database/database';
 
 export default class AuthenticationController {
   public async create(request: Request, response: Response): Promise<Response> {
@@ -12,11 +11,11 @@ export default class AuthenticationController {
       const userExists = users.find(user => user.email === email);
 
       if (!userExists) {
-        throw new Error("User not exists!");
+        throw new Error('User not exists!');
       }
 
       if (userExists.password !== password) {
-        throw new Error("Email or password incorrect!");
+        throw new Error('Email or password incorrect!');
       }
 
       const { secret, expiresIn } = auth.jwt;

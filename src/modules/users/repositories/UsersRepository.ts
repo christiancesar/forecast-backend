@@ -1,5 +1,5 @@
-import { EntityRepository, Repository } from "typeorm";
-import User from "../models/User";
+import { EntityRepository, Repository } from 'typeorm';
+import User from '../models/User';
 
 interface UserDTO {
   fullName: string;
@@ -11,11 +11,10 @@ interface UserDTO {
   password: string;
 }
 
-
 @EntityRepository(User)
-export default class UsersRepository extends Repository<User>{
+export default class UsersRepository extends Repository<User> {
   public async createUser(data: UserDTO): Promise<User> {
-    const user = this.create(data)
+    const user = this.create(data);
 
     this.save(user);
 

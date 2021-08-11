@@ -14,21 +14,23 @@ server.use(express.json());
 
 server.use(routes);
 
-server.use((err: Error, request: Request, response: Response, _: NextFunction) => {
-  if (err instanceof AppError) {
-    return response.status(err.statusCode).json({
+server.use(
+  (err: Error, request: Request, response: Response, _: NextFunction) => {
+    if (err instanceof AppError) {
+      return response.status(err.statusCode).json({
+        status: 'error',
+        message: err.message,
+      });
+    }
+
+    console.error(err);
+
+    return response.status(500).json({
       status: 'error',
-      message: err.message,
+      message: 'Internal server error',
     });
-  }
-
-  console.error(err);
-
-  return response.status(500).json({
-    status: 'error',
-    message: 'Internal server error',
-  });
-});
+  },
+);
 
 server.listen(process.env.PORT, () => {
   console.log(`🚀 Forecast started on port ${process.env.PORT}! 🤑`);

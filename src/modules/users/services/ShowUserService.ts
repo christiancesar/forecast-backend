@@ -1,10 +1,10 @@
-import AppError from "../../../shared/errors/AppError";
-import { getCustomRepository } from "typeorm";
-import User from "../models/User";
-import UsersRepository from "../repositories/UsersRepository";
+import { getCustomRepository } from 'typeorm';
+import AppError from '../../../shared/errors/AppError';
+import User from '../models/User';
+import UsersRepository from '../repositories/UsersRepository';
 
 interface RequestDTO {
-  userId: string
+  userId: string;
 }
 
 export default class ShowUserService {
