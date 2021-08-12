@@ -38,6 +38,7 @@ export default class CreateUserService {
       password,
       phone,
     });
+
     return user;
   }
 }

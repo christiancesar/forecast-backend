@@ -10,9 +10,10 @@ const authenticationController = new AuthenticationController();
 const refreshTokenController = new RefreshTokenController();
 const usersController = new UsersController();
 
+usersRouter.post('/', usersController.create);
+
 usersRouter.get('/', usersController.index);
 usersRouter.get('/:user_id', usersController.show);
-usersRouter.post('/', usersController.create);
 
 usersRouter.post('/sessions', authenticationController.create);
 

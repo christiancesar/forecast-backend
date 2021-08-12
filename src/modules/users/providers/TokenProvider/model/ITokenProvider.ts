@@ -1,3 +1,4 @@
 export interface ITokenProvider {
-  generate(): string;
+  // eslint-disable-next-line
+  generate(userId: string, payload: object): string;
 }
