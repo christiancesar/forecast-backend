@@ -1,5 +1,5 @@
 import { getCustomRepository } from 'typeorm';
-import AppError from '../../../shared/errors/AppError';
+import AppError from '@shared/errors/AppError';
 import RefreshTokenProvider from '../providers/RefreshTokenProvider/implementations/RefreshTokenProvider';
 import JwtProvider from '../providers/TokenProvider/implementations/JwtProvider';
 import UsersRepository from '../repositories/UsersRepository';

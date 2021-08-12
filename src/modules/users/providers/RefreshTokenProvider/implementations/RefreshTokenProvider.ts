@@ -1,6 +1,5 @@
 import { getRepository, Repository } from 'typeorm';
-import { v4 as uuid } from 'uuid';
-import RefreshToken from '../../../models/RefreshToken';
+import RefreshToken from '@modules/users/models/RefreshToken';
 import { IRefreshTokenProvider } from '../model/IRefreshTokenProvider';
 
 export default class RefreshTokenProvider implements IRefreshTokenProvider {

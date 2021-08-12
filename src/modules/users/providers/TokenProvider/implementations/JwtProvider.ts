@@ -1,5 +1,5 @@
 import { sign } from 'jsonwebtoken';
-import auth from '../../../../../config/auth';
+import auth from '@config/auth';
 
 export default class JwtProvider {
   // eslint-disable-next-line

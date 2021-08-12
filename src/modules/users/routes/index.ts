@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import checkAuthenticated from '../../../shared/middlewares/checkAuthenticated';
+import checkAuthenticated from '@shared/middlewares/checkAuthenticated';
 import AuthenticationController from '../controllers/AuthenticationController';
 import RefreshTokenController from '../controllers/RefreshTokenController';
 import UsersController from '../controllers/UsersController';
