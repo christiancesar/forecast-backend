@@ -20,8 +20,10 @@ export default function checkAuthenticated(
     throw new AppError('JWT token is missing');
   }
 
-  const [type, token] = authHeader.split(' ');
+  const [_, token] = authHeader.split(' ');
+
   const { secret } = authConfig.jwt;
+
   try {
     const decoded = verify(token, secret);
 
@@ -33,6 +35,6 @@ export default function checkAuthenticated(
 
     return next();
   } catch (err) {
-    throw new AppError('Invalid JWT token');
+    throw new AppError('Invalid JWT token', 'token.expired', 401);
   }
 }

@@ -19,6 +19,7 @@ server.use(
     if (err instanceof AppError) {
       return response.status(err.statusCode).json({
         status: 'error',
+        code: err.code,
         message: err.message,
       });
     }

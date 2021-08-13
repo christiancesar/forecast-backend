@@ -27,7 +27,7 @@ export default class RefreshTokenProvider implements IRefreshTokenProvider {
   ): Promise<boolean> {
     // token e userId devem existir e isValid tem de estar como true
     const refreshTokenIsValid = await this.refreshTokenRepository.findOne({
-      where: [{ userId, token }, { isValid: true }],
+      where: [{ userId, token, isValid: true }],
     });
 
     return !!refreshTokenIsValid;
@@ -38,7 +38,7 @@ export default class RefreshTokenProvider implements IRefreshTokenProvider {
     token: string,
   ): Promise<void> {
     const refreshToken = await this.refreshTokenRepository.findOne({
-      where: { userId, token },
+      where: [{ userId, token, isValid: true }],
     });
 
     if (refreshToken) {

@@ -1,5 +1,6 @@
 import { getCustomRepository } from 'typeorm';
 import AppError from '@shared/errors/AppError';
+import BCryptHashProvider from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
 import User from '../models/User';
 import UsersRepository from '../repositories/UsersRepository';
 
@@ -22,6 +23,7 @@ export default class CreateUserService {
     phone,
   }: RequestDTO): Promise<User> {
     const usersRepository = getCustomRepository(UsersRepository);
+    const hashProvider = new BCryptHashProvider();
 
     const userExist = await usersRepository.findOne({ where: { email } });
 
@@ -29,13 +31,15 @@ export default class CreateUserService {
       throw new AppError('Already exist  user with this email!');
     }
 
+    const hasPassword = await hashProvider.generateHash(password);
+
     const user = await usersRepository.createUser({
       email,
       firstName,
       lastName,
       fullName: `${firstName} ${lastName}`,
       individualTaxNumber,
-      password,
+      password: hasPassword,
       phone,
     });
 
