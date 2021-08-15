@@ -18,7 +18,6 @@ export default class CreateUserService {
     email,
     firstName,
     lastName,
-    individualTaxNumber,
     password,
     phone,
   }: RequestDTO): Promise<User> {
@@ -38,7 +37,6 @@ export default class CreateUserService {
       firstName,
       lastName,
       fullName: `${firstName} ${lastName}`,
-      individualTaxNumber,
       password: hasPassword,
       phone,
     });

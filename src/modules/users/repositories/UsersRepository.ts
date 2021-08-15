@@ -7,7 +7,6 @@ interface UserDTO {
   lastName: string;
   phone: string;
   email: string;
-  individualTaxNumber: string;
   password: string;
 }
 
