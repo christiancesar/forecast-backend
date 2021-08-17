@@ -42,7 +42,13 @@ export default class AuthenticationService {
         401,
       );
     }
-
+    if (!password) {
+      throw new AppError(
+        'Email or password incorrect!',
+        'credential.not.matched',
+        401,
+      );
+    }
     const passwordMatched = await this.hashProvider.compareHash(
       password,
       user.password,
