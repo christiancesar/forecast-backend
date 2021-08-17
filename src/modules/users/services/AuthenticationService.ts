@@ -1,9 +1,10 @@
-import { getCustomRepository } from 'typeorm';
+import auth from '@config/auth';
 import AppError from '@shared/errors/AppError';
-import BCryptHashProvider from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
-import RefreshTokenProvider from '../providers/RefreshTokenProvider/implementations/RefreshTokenProvider';
-import JwtProvider from '../providers/TokenProvider/implementations/JwtProvider';
-import UsersRepository from '../repositories/UsersRepository';
+import { sign } from 'jsonwebtoken';
+import { inject, injectable } from 'tsyringe';
+import IHashProvider from '../providers/HashProvider/interfaces/IHashProvider';
+import IRefreshTokenRepository from '../repositories/interfaces/IRefreshTokenRepository';
+import IUsersRepository from '../repositories/interfaces/IUsersRepository';
 
 interface AuthenticationRequest {
   email: string;
@@ -15,17 +16,24 @@ interface AuthenticationResponse {
   refreshToken: string;
 }
 
+@injectable()
 export default class AuthenticationService {
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
+
+    @inject('RefreshTokenRepository')
+    private refreshTokenRepository: IRefreshTokenRepository,
+  ) {}
+
   public async execute({
     email,
     password,
   }: AuthenticationRequest): Promise<AuthenticationResponse> {
-    const jwtProvider = new JwtProvider();
-    const refreshTokenProvider = new RefreshTokenProvider();
-    const userRepository = getCustomRepository(UsersRepository);
-    const hashProvider = new BCryptHashProvider();
-
-    const user = await userRepository.findOne({ where: { email } });
+    const user = await this.usersRepository.findByEmail(email);
 
     if (!user) {
       throw new AppError(
@@ -35,7 +43,7 @@ export default class AuthenticationService {
       );
     }
 
-    const passwordMatched = await hashProvider.compareHash(
+    const passwordMatched = await this.hashProvider.compareHash(
       password,
       user.password,
     );
@@ -47,9 +55,16 @@ export default class AuthenticationService {
         401,
       );
     }
-    const token = jwtProvider.generate(user.id, {});
+    const { secret, expiresIn } = auth.jwt;
 
-    const refreshToken = await refreshTokenProvider.createRefreshToken(user.id);
+    const token = sign({}, secret, {
+      subject: user.id,
+      expiresIn,
+    });
+
+    const refreshToken = await this.refreshTokenRepository.createRefreshToken(
+      user.id,
+    );
 
     return { token, refreshToken };
   }

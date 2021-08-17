@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { container } from 'tsyringe';
 import RefreshTokenService from '../services/RefreshTokenService';
 
 export default class RefreshTokenController {
@@ -7,7 +8,7 @@ export default class RefreshTokenController {
 
     const { refreshToken } = request.body;
 
-    const refreshTokenService = new RefreshTokenService();
+    const refreshTokenService = container.resolve(RefreshTokenService);
 
     const { token, newRefreshToken } = await refreshTokenService.execute({
       userId,

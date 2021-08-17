@@ -1,42 +1,45 @@
-import { getCustomRepository } from 'typeorm';
 import AppError from '@shared/errors/AppError';
-import BCryptHashProvider from '@modules/users/providers/HashProvider/implementations/BCryptHashProvider';
+import { inject, injectable } from 'tsyringe';
 import User from '../models/User';
-import UsersRepository from '../repositories/UsersRepository';
+import IHashProvider from '../providers/HashProvider/interfaces/IHashProvider';
+import IUsersRepository from '../repositories/interfaces/IUsersRepository';
 
 interface RequestDTO {
   firstName: string;
   lastName: string;
   phone: string;
   email: string;
-  individualTaxNumber: string;
   password: string;
 }
 
+@injectable()
 export default class CreateUserService {
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+    @inject('HashProvider')
+    private hashProvider: IHashProvider,
+  ) {}
+
   public async execute({
     email,
     firstName,
     lastName,
     password,
     phone,
-  }: RequestDTO): Promise<User> {
-    const usersRepository = getCustomRepository(UsersRepository);
-    const hashProvider = new BCryptHashProvider();
-
-    const userExist = await usersRepository.findOne({ where: { email } });
+  }: RequestDTO): Promise<Omit<User, 'individualTaxNumber'>> {
+    const userExist = await this.usersRepository.findByEmail(email);
 
     if (userExist) {
       throw new AppError('Already exist  user with this email!');
     }
 
-    const hasPassword = await hashProvider.generateHash(password);
+    const hasPassword = await this.hashProvider.generateHash(password);
 
-    const user = await usersRepository.createUser({
+    const user = await this.usersRepository.createUser({
       email,
       firstName,
       lastName,
-      fullName: `${firstName} ${lastName}`,
       password: hasPassword,
       phone,
     });

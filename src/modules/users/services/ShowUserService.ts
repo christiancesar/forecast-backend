@@ -1,16 +1,21 @@
-import { getCustomRepository } from 'typeorm';
 import AppError from '@shared/errors/AppError';
+import { inject, injectable } from 'tsyringe';
 import User from '../models/User';
-import UsersRepository from '../repositories/UsersRepository';
+import IUsersRepository from '../repositories/interfaces/IUsersRepository';
 
 interface RequestDTO {
   userId: string;
 }
 
+@injectable()
 export default class ShowUserService {
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
+
   public async execute({ userId }: RequestDTO): Promise<User> {
-    const usersRepository = getCustomRepository(UsersRepository);
-    const user = await usersRepository.findOne({ where: { id: userId } });
+    const user = await this.usersRepository.findByUserId(userId);
 
     if (!user) {
       throw new AppError('Sorry, but user not exist!');

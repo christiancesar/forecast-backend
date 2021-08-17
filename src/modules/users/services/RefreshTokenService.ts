@@ -1,8 +1,9 @@
-import { getCustomRepository } from 'typeorm';
+import auth from '@config/auth';
 import AppError from '@shared/errors/AppError';
-import RefreshTokenProvider from '../providers/RefreshTokenProvider/implementations/RefreshTokenProvider';
-import JwtProvider from '../providers/TokenProvider/implementations/JwtProvider';
-import UsersRepository from '../repositories/UsersRepository';
+import { sign } from 'jsonwebtoken';
+import { inject, injectable } from 'tsyringe';
+import IRefreshTokenRepository from '../repositories/interfaces/IRefreshTokenRepository';
+import IUsersRepository from '../repositories/interfaces/IUsersRepository';
 
 interface RefreshTokenRequest {
   userId: string;
@@ -14,16 +15,21 @@ interface RefreshTokenResponse {
   newRefreshToken: string;
 }
 
+@injectable()
 export default class RefreshTokenService {
+  constructor(
+    @inject('RefreshTokenRepository')
+    private refreshTokenRepository: IRefreshTokenRepository,
+
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
+
   public async execute({
     userId,
     refreshToken,
   }: RefreshTokenRequest): Promise<RefreshTokenResponse> {
-    const jwtProvider = new JwtProvider();
-    const refreshTokenProvider = new RefreshTokenProvider();
-    const userRepository = getCustomRepository(UsersRepository);
-
-    const user = await userRepository.findOne({ where: { id: userId } });
+    const user = await this.usersRepository.findByUserId(userId);
 
     if (!user) {
       throw new AppError('User not found!');
@@ -34,19 +40,29 @@ export default class RefreshTokenService {
     }
 
     const isValidRefreshToken =
-      await refreshTokenProvider.checkRefreshTokenIsValid(userId, refreshToken);
+      await this.refreshTokenRepository.checkRefreshTokenIsValid(
+        userId,
+        refreshToken,
+      );
 
     if (!isValidRefreshToken) {
       throw new AppError('Refresh token is invalid!');
     }
 
-    await refreshTokenProvider.invalidateRefreshToken(userId, refreshToken);
-
-    const token = jwtProvider.generate(userId, {});
-
-    const newRefreshToken = await refreshTokenProvider.createRefreshToken(
+    await this.refreshTokenRepository.invalidateRefreshToken(
       userId,
+      refreshToken,
     );
+
+    const { secret, expiresIn } = auth.jwt;
+
+    const token = sign({}, secret, {
+      subject: user.id,
+      expiresIn,
+    });
+
+    const newRefreshToken =
+      await this.refreshTokenRepository.createRefreshToken(userId);
 
     return {
       token,

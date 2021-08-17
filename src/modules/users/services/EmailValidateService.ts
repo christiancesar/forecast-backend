@@ -1,15 +1,19 @@
-import { getCustomRepository } from 'typeorm';
-import UsersRepository from '../repositories/UsersRepository';
+import { inject, injectable } from 'tsyringe';
+import IUsersRepository from '../repositories/interfaces/IUsersRepository';
 
 interface ValidatEmailRequest {
   email: string;
 }
+
+@injectable()
 export default class EmailValidateService {
+  constructor(
+    @inject('UsersRepository')
+    private usersRepository: IUsersRepository,
+  ) {}
+
   public async execute({ email }: ValidatEmailRequest): Promise<boolean> {
-    const usersRepository = getCustomRepository(UsersRepository);
-    const emailAlreadyExist = await usersRepository.findOne({
-      where: { email },
-    });
+    const emailAlreadyExist = await this.usersRepository.findByEmail(email);
 
     return !!emailAlreadyExist;
   }
