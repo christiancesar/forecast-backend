@@ -1,13 +1,13 @@
-import 'reflect-metadata';
+import { errors } from 'celebrate';
 import cors from 'cors';
 import 'dotenv/config';
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import 'express-async-errors';
-import createConnection from './database';
-import AppError from './errors/AppError';
-import routes from './routes';
-
+import 'reflect-metadata';
 import './containers';
+import createConnection from './database';
+import routes from './routes';
+import interceptErrorMiddleware from './routes/middlewares/interceptErrorMiddleware';
 
 createConnection();
 
@@ -18,24 +18,9 @@ server.use(express.json());
 
 server.use(routes);
 
-server.use(
-  (err: Error, request: Request, response: Response, _: NextFunction) => {
-    if (err instanceof AppError) {
-      return response.status(err.statusCode).json({
-        status: 'error',
-        code: err.code,
-        message: err.message,
-      });
-    }
+server.use(errors());
 
-    console.error(err);
-
-    return response.status(500).json({
-      status: 'error',
-      message: 'Internal server error',
-    });
-  },
-);
+server.use(interceptErrorMiddleware);
 
 server.listen(process.env.PORT, () => {
   console.log(`🚀 Forecast started on port ${process.env.PORT}! 🤑`);
