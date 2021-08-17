@@ -8,7 +8,7 @@ interface RequestDTO {
 }
 
 @injectable()
-export default class ShowUserService {
+export default class ShowUsersService {
   constructor(
     @inject('UsersRepository')
     private usersRepository: IUsersRepository,

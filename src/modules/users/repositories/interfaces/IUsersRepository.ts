@@ -1,4 +1,4 @@
-import { ICreateUserDTO } from '@modules/users/DTO/ICreateUserDTO';
+import { ICreateUserDTO } from '@modules/users/dto/ICreateUserDTO';
 import User from '@modules/users/models/User';
 
 export default interface IUsersRepository {

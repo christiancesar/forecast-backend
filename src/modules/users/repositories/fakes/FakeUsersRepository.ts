@@ -1,10 +1,10 @@
-import { ICreateUserDTO } from '@modules/users/DTO/ICreateUserDTO';
+import { ICreateUserDTO } from '@modules/users/dto/ICreateUserDTO';
 import { v4 as uuid } from 'uuid';
 import User from '../../models/User';
 import IUsersRepository from '../interfaces/IUsersRepository';
 
 export default class FakeUsersRepository implements IUsersRepository {
-  private users: User[];
+  private users: User[] = [];
 
   async findAll(): Promise<User[]> {
     const { users } = this;

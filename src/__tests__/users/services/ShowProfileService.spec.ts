@@ -1,21 +1,19 @@
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
-import CreateUserService from '@modules/users/services/CreateUserService';
+import ShowProfileService from '@modules/users/services/ShowProfileService';
 import AppError from '@shared/errors/AppError';
 
 let fakeUsersRepository: FakeUsersRepository;
-let fakeHashProvider: FakeHashProvider;
-let createUser: CreateUserService;
+let showProfileService: ShowProfileService;
 
-describe('Create user service', () => {
+describe('Show profile user service', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
-    fakeHashProvider = new FakeHashProvider();
-    createUser = new CreateUserService(fakeUsersRepository, fakeHashProvider);
+    showProfileService = new ShowProfileService(fakeUsersRepository);
   });
 
-  it('should be able to create user', async () => {
-    const user = await createUser.execute({
+  it('should be able to return user', async () => {
+    const userOne = await fakeUsersRepository.createUser({
       firstName: 'Jonh',
       lastName: 'Doe',
       email: 'john.doe@example.com',
@@ -23,11 +21,13 @@ describe('Create user service', () => {
       phone: '65999999999',
     });
 
+    const user = await showProfileService.execute({ userId: userOne.id });
+
     expect(user).toHaveProperty('id');
   });
 
-  it('should not be able to create a new user with same email from another', async () => {
-    await createUser.execute({
+  it('should not be able to return user when not existis', async () => {
+    await fakeUsersRepository.createUser({
       firstName: 'Jonh',
       lastName: 'Doe',
       email: 'john.doe@example.com',
@@ -36,12 +36,8 @@ describe('Create user service', () => {
     });
 
     await expect(
-      createUser.execute({
-        firstName: 'Jonh',
-        lastName: 'Doe',
-        email: 'john.doe@example.com',
-        password: '123456',
-        phone: '65999999999',
+      showProfileService.execute({
+        userId: 'user-not-exists',
       }),
     ).rejects.toBeInstanceOf(AppError);
   });
