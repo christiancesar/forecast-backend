@@ -39,6 +39,7 @@ class User {
   avatar: string;
 
   @Column({ name: 'confirmed_email' })
+  @Exclude()
   confirmedEmail: boolean;
 
   @CreateDateColumn({ name: 'created_at' })

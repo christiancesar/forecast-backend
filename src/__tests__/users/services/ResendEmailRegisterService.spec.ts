@@ -40,8 +40,7 @@ describe('Create user service', () => {
   });
 
   it('shold not be able resend email when user not exists', async () => {
-    const sendMail = jest.spyOn(fakeMailProvider, 'sendMail');
-    const user = await fakeUsersRepository.createUser({
+    await fakeUsersRepository.createUser({
       firstName: 'Jonh',
       lastName: 'Doe',
       email: 'john.doe@example.com',

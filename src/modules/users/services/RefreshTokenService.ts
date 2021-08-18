@@ -32,7 +32,7 @@ export default class RefreshTokenService {
     const user = await this.usersRepository.findByUserId(userId);
 
     if (!user) {
-      throw new AppError('User not found!');
+      throw new AppError('User not existis!');
     }
 
     if (!refreshToken) {

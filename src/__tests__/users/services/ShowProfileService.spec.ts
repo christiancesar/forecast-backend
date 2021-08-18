@@ -1,4 +1,3 @@
-import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import ShowProfileService from '@modules/users/services/ShowProfileService';
 import AppError from '@shared/errors/AppError';

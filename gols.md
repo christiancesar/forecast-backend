@@ -118,23 +118,23 @@ Banco: Postgresql
 
 ### User
 
-```tsx
+```ts
 interface User {
-	uuid: string;
-	avatar: string
-	name: string;
-	phone: string;
-	email: string;
-	individualTaxNumber: number;
-	password: string;
-	createdAt: Date;
-	updatedAt: Date;
+	id: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  fullName: string;
+  email: string;
+  individualTaxNumber: string;
+  password: string;
+  avatar: string;
 }
 ```
 
 ### Company Type
 
-```tsx
+```ts
 type CompanyType {
 	uuid: string;
 	description: string;
@@ -143,7 +143,7 @@ type CompanyType {
 
 ### Company
 
-```tsx
+```ts
 interface Company {
 	uuid: string;
 	companyType: CompanyType;
@@ -161,7 +161,7 @@ interface Company {
 
 ### Address
 
-```tsx
+```ts
 interface Address {
 	street:	string;
 	number:	string;
@@ -180,13 +180,13 @@ interface Address {
 
 ### Transporter Responsibility
 
-```tsx
+```ts
 type TransporterResponsibility = ["Company","Provider"];
 ```
 
 ### Order
 
-```tsx
+```ts
 interface Order {
 	uuid: string;
 	createdBy: User;
@@ -208,7 +208,7 @@ interface Order {
 
 ### Order Item
 
-```tsx
+```ts
 interface OrderItem {
 	uuid: string;
 	itemId: number;
@@ -219,7 +219,7 @@ interface OrderItem {
 
 ### Item
 
-```tsx
+```ts
 interface Item {
 	unitPrice: number;
 	quantity: number;
@@ -235,7 +235,7 @@ interface Item {
 
 ### Transporter
 
-```tsx
+```ts
 interface Transporter {
 	uuid: string;
 	name: string;
@@ -246,7 +246,7 @@ interface Transporter {
 
 ### Budget
 
-```tsx
+```ts
 interface Budget {
 	uuid: string;
 	shortId: string;
