@@ -1,14 +1,18 @@
-import { celebrate, Segments, Joi } from 'celebrate';
-import checkAuthenticated from '@shared/routes/middlewares/checkAuthenticated';
+import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
+import checkAuthenticated from '@shared/routes/middlewares/checkAuthenticated';
+import ConfirmationRegisterController from '../controllers/ConfirmationRegisterController';
+import ResendEmailConfirmationRegisterController from '../controllers/ResendEmailConfirmationRegisterController';
 import EmailValidateController from '../controllers/EmailValidateController';
 import UsersController from '../controllers/UsersController';
 
 const usersRouter = Router();
 
 const usersController = new UsersController();
-
+const confirmationRegisterController = new ConfirmationRegisterController();
 const emailValidateController = new EmailValidateController();
+const resendEmailConfirmationRegisterController =
+  new ResendEmailConfirmationRegisterController();
 
 usersRouter.post(
   '/',
@@ -32,6 +36,21 @@ usersRouter.get(
     },
   }),
   emailValidateController.show,
+);
+
+usersRouter.patch(
+  '/confirmation-register',
+  confirmationRegisterController.update,
+);
+
+usersRouter.get(
+  '/resend-email-confirmation-register',
+  celebrate({
+    [Segments.QUERY]: {
+      userId: Joi.string().uuid().required(),
+    },
+  }),
+  resendEmailConfirmationRegisterController.create,
 );
 
 usersRouter.get('/', checkAuthenticated, usersController.index);

@@ -19,6 +19,9 @@ class UserToken {
   @Column()
   user_id: string;
 
+  @Column({ name: 'expires_in' })
+  expiresIn: Date;
+
   @CreateDateColumn()
   created_at: Date;
 

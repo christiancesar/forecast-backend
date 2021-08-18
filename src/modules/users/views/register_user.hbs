@@ -38,6 +38,38 @@
     span {
       font-weight: bold;
     }
+
+    .content-buttons {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .resend-mail {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+      border: 1px solid #282A36;
+      background: transparent;
+      color: #F2F2F2;
+      text-decoration: none;
+      text-align: center;
+      font-weight: bold;
+      border-radius: 0.25rem;
+      padding: 0.5rem;
+      width: 15rem;
+      height: 2rem;
+      margin-top: 2rem;
+      transition: background-color 4s;
+    }
+
+    .resend-mail:hover {
+      filter: brightness(0.9);
+      border: 1px solid #44EE88;
+      color: #44EE88;
+    }
+
     .confirm-mail {
       display: flex;
       align-items: center;
@@ -55,7 +87,7 @@
       margin-top: 2rem;
       transition: background-color 4s;
     }
-    .confirm-mail:hover {
+    .confirm-mail:hover{
       filter: brightness(0.9);
       color: #F7FAFC;
     }
@@ -69,10 +101,19 @@
       <p>Ficamos felizes que você está querendo se juntar a nossa família!</p>
       <br>
       <p>Mas primeiramente, precisamos que você confirme seu e-mail clicando no botão abaixo, assim validaremos seu cadastro. Está medida é necessária e tem o intuito de mantermos nossa plataforma saudável e segura.</p>
+      <br>
+      <p>A confirmação do e-mail tem um prazo de 24h 🕐, mas não se preocupe seus dados já estão salvos e seguros conosco. Caso ocorra algum erro de confirmação, clique em <span>Re-enviar email</span> que iremos te fornecer um novo token com mais 24h</p>
 
-      <a href="{{link}}"  class="confirm-mail">
-        Confirmar email
-      </a>
+      <span>Equipe Forecast 🤑</span>
+
+      <div class="content-buttons">
+        <a href="{{linkResend}}"  class="resend-mail">
+          Re-enviar email
+        </a>
+        <a href="{{linkConfirm}}"  class="confirm-mail">
+          Confirmar email
+        </a>
+      </div>
 
     </section>
   </div>

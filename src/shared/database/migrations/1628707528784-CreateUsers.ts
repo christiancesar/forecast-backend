@@ -49,7 +49,7 @@ export default class CreateUsers1628707528784 implements MigrationInterface {
             type: 'varchar',
           },
           {
-            name: 'email_confirmed',
+            name: 'confirmed_email',
             type: 'boolean',
             default: 'false',
           },

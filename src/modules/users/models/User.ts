@@ -38,8 +38,8 @@ class User {
   @Column()
   avatar: string;
 
-  @Column({ name: 'email_confirmed' })
-  emailConfirmed: boolean;
+  @Column({ name: 'confirmed_email' })
+  confirmedEmail: boolean;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

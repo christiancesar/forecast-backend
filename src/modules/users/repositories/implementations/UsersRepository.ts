@@ -45,4 +45,9 @@ export default class UsersRepository implements IUsersRepository {
 
     return user;
   }
+
+  async saveUser(user: User): Promise<User> {
+    const userUpdate = await this.ormRepository.save(user);
+    return userUpdate;
+  }
 }

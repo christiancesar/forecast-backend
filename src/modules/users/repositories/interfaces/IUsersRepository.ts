@@ -12,4 +12,5 @@ export default interface IUsersRepository {
     password,
     phone,
   }: ICreateUserDTO): Promise<User>;
+  saveUser(user: User): Promise<User>;
 }
