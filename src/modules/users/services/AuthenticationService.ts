@@ -51,7 +51,7 @@ export default class AuthenticationService {
       );
     }
 
-    if (!user.emailConfirm) {
+    if (!user.confirmedEmail) {
       throw new AppError(
         'Account not corfirmation',
         'credential.not.confirmation',

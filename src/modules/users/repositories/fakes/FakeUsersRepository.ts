@@ -38,10 +38,17 @@ export default class FakeUsersRepository implements IUsersRepository {
       fullName: `${firstName} ${lastName}`,
       password,
       phone,
-    });
+      confirmedEmail: false,
+    } as User);
 
     this.users.push(user);
 
     return user;
+  }
+
+  async saveUser(user: User): Promise<User> {
+    const userIndex = this.users.findIndex(element => element === user);
+    this.users[userIndex] = user;
+    return this.users[userIndex];
   }
 }

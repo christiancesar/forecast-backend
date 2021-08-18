@@ -14,7 +14,7 @@ export default class UsersTokensRepository implements IUsersTokensRepository {
     const token = uuid();
 
     const userToken = this.ormRepository.create({
-      user_id: userId,
+      userId,
       token,
     });
 
@@ -28,9 +28,15 @@ export default class UsersTokensRepository implements IUsersTokensRepository {
     userId: string,
   ): Promise<UserToken | undefined> {
     const userToken = await this.ormRepository.findOne({
-      where: { token, user_id: userId },
+      where: { token, userId },
     });
 
     return userToken;
+  }
+
+  async updateToken(userToken: UserToken): Promise<UserToken> {
+    const newUserToken = await this.ormRepository.save(userToken);
+
+    return newUserToken;
   }
 }

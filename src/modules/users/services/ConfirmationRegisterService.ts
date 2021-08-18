@@ -39,7 +39,7 @@ export default class ConfirmationRegisterService {
 
     expiresIn.setDate(expiresIn.getDate() + 1); // 24h
 
-    if (expiresIn.getDate() > currentDate.getDate()) {
+    if (currentDate.getDate() > expiresIn.getDate()) {
       throw new AppError('Token expired!');
     }
 

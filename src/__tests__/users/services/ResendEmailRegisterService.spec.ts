@@ -1,35 +1,32 @@
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeUsersTokenRepository from '@modules/users/repositories/fakes/FakeUsersTokensRepository';
-import CreateUserService from '@modules/users/services/CreateUserService';
+import ResendEmailRegisterService from '@modules/users/services/ResendEmailRegisterService';
 import FakeMailProvider from '@shared/containers/providers/MailProvider/fakes/FakeMailProvider';
 import AppError from '@shared/errors/AppError';
 
 let fakeUsersRepository: FakeUsersRepository;
-let fakeHashProvider: FakeHashProvider;
 let fakeUsersTokenRepository: FakeUsersTokenRepository;
 let fakeMailProvider: FakeMailProvider;
 
-let createUser: CreateUserService;
+let resendEmailRegisterService: ResendEmailRegisterService;
 
 describe('Create user service', () => {
   beforeEach(() => {
     fakeUsersRepository = new FakeUsersRepository();
-    fakeHashProvider = new FakeHashProvider();
     fakeUsersTokenRepository = new FakeUsersTokenRepository();
     fakeMailProvider = new FakeMailProvider();
 
-    createUser = new CreateUserService(
-      fakeUsersRepository,
-      fakeHashProvider,
+    resendEmailRegisterService = new ResendEmailRegisterService(
       fakeMailProvider,
+      fakeUsersRepository,
       fakeUsersTokenRepository,
     );
   });
 
-  it('should be able to create user and send email', async () => {
+  it('shold be able resend email', async () => {
     const sendMail = jest.spyOn(fakeMailProvider, 'sendMail');
-    const user = await createUser.execute({
+    const user = await fakeUsersRepository.createUser({
       firstName: 'Jonh',
       lastName: 'Doe',
       email: 'john.doe@example.com',
@@ -37,12 +34,14 @@ describe('Create user service', () => {
       phone: '65999999999',
     });
 
-    expect(user).toHaveProperty('id');
+    await resendEmailRegisterService.execute({ userId: user.id });
+
     expect(sendMail).toHaveBeenCalled();
   });
 
-  it('should not be able to create a new user with same email from another', async () => {
-    await createUser.execute({
+  it('shold not be able resend email when user not exists', async () => {
+    const sendMail = jest.spyOn(fakeMailProvider, 'sendMail');
+    const user = await fakeUsersRepository.createUser({
       firstName: 'Jonh',
       lastName: 'Doe',
       email: 'john.doe@example.com',
@@ -51,13 +50,7 @@ describe('Create user service', () => {
     });
 
     await expect(
-      createUser.execute({
-        firstName: 'Jonh',
-        lastName: 'Doe',
-        email: 'john.doe@example.com',
-        password: '123456',
-        phone: '65999999999',
-      }),
+      resendEmailRegisterService.execute({ userId: 'user-not-exists' }),
     ).rejects.toBeInstanceOf(AppError);
   });
 });
