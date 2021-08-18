@@ -1,8 +1,9 @@
+import { container } from 'tsyringe';
 import { classToClass } from 'class-transformer';
 import { Request, Response } from 'express';
-import { container } from 'tsyringe';
 import CreateUserService from '../services/CreateUserService';
 import ListUserService from '../services/ListUsersService';
+import SendEmailRegisterService from '../services/SendEmailRegisterService';
 import ShowUserService from '../services/ShowUsersService';
 
 export default class UsersController {
@@ -24,12 +25,20 @@ export default class UsersController {
   public async create(request: Request, response: Response): Promise<Response> {
     const { email, firstName, lastName, phone, password } = request.body;
     const createUserServive = container.resolve(CreateUserService);
+    const sendEmailRegisterService = container.resolve(
+      SendEmailRegisterService,
+    );
     const user = await createUserServive.execute({
       email,
       firstName,
       lastName,
       password,
       phone,
+    });
+
+    await sendEmailRegisterService.execute({
+      firstName: user.firstName,
+      email: user.email,
     });
 
     return response.json(classToClass(user));

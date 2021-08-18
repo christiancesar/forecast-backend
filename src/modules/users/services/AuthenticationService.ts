@@ -42,10 +42,19 @@ export default class AuthenticationService {
         401,
       );
     }
+
     if (!password) {
       throw new AppError(
         'Email or password incorrect!',
         'credential.not.matched',
+        401,
+      );
+    }
+
+    if (!user.emailConfirm) {
+      throw new AppError(
+        'Account not corfirmation',
+        'credential.not.confirmation',
         401,
       );
     }

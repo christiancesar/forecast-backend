@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <title>Register</title>
+</head>
+<body>
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: #F7FAFC;
+      background: #181A22;
+    }
+
+    img{
+      width: 150px;
+    }
+    .content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      width: 600px;
+      border-radius: 0.5rem;
+      padding: 1rem;
+      border: 1px solid #282A36;
+      margin: 0 auto;
+    }
+
+    span {
+      font-weight: bold;
+    }
+    .confirm-mail {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Poppins', sans-serif;
+      background: #44EE88;
+      color: #181A22;
+      text-decoration: none;
+      text-align: center;
+      font-weight: bold;
+      border-radius: 0.25rem;
+      padding: 0.5rem;
+      width: 15rem;
+      height: 2rem;
+      margin-top: 2rem;
+      transition: background-color 4s;
+    }
+    .confirm-mail:hover {
+      filter: brightness(0.9);
+      color: #F7FAFC;
+    }
+  </style>
+  <div class="container">
+    <section class="content">
+      <header class="forecast-img">
+        <img src="{{appWebUrl}}/logo.svg" alt="Forecast logo">
+      </header>
+      <p><span>Welcome</span> {{firstName}} 👋</p>
+      <p>Ficamos felizes que você está querendo se juntar a nossa família!</p>
+      <br>
+      <p>Mas primeiramente, precisamos que você confirme seu e-mail clicando no botão abaixo, assim validaremos seu cadastro. Está medida é necessária e tem o intuito de mantermos nossa plataforma saudável e segura.</p>
+
+      <a href="{{link}}"  class="confirm-mail">
+        Confirmar email
+      </a>
+
+    </section>
+  </div>
+
+</body>
+</html>

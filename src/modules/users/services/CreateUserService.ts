@@ -27,7 +27,9 @@ export default class CreateUserService {
     lastName,
     password,
     phone,
-  }: RequestDTO): Promise<Omit<User, 'individualTaxNumber'>> {
+  }: RequestDTO): Promise<
+    Omit<User, 'individualTaxNumber' | 'emailConfirmed'>
+  > {
     const userExist = await this.usersRepository.findByEmail(email);
 
     if (userExist) {
