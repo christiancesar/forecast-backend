@@ -1,5 +1,5 @@
+import ICreateAddressDTO from '@modules/address/dto/ICreateAddressDTO';
 import Address from '@modules/address/models/Address';
-import ICreateAddressDTO from '@modules/dto/ICreateAddressDTO';
 import { getRepository, Repository } from 'typeorm';
 import IAddressRepository from '../interfaces/IAddressRepository';
 
