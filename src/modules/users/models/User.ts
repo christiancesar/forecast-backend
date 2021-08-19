@@ -1,15 +1,20 @@
+// import uploadConfig from '@config/upload';
+
+import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-// import uploadConfig from '@config/upload';
-import { Exclude, Expose } from 'class-transformer';
+
+import Address from '@modules/address/models/Address';
 
 @Entity('users')
-class User {
+export default class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -42,6 +47,15 @@ class User {
   @Exclude()
   confirmedEmail: boolean;
 
+  @OneToOne(() => Address, (address: Address) => address.id, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'address_id' })
+  address: Address;
+
+  @Column({ name: 'address_id' })
+  addressId: string;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
@@ -64,5 +78,3 @@ class User {
   //   }
   // }
 }
-
-export default User;

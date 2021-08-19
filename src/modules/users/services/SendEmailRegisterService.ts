@@ -49,7 +49,7 @@ export default class ResendEmailRegisterService {
         variables: {
           appWebUrl: process.env.APP_WEB_URL || 'http://localhost:3000',
           firstName: user.firstName,
-          linkResend: `${process.env.APP_API_URL}/users/resend-email-confirmation-register?userId=${user.id}`,
+          linkResend: `${process.env.APP_API_URL}/users/send-mail-register?userId=${user.id}`,
           linkConfirm: `${process.env.APP_WEB_URL}/confirm-email?token=${token}?userId=${user.id}`,
         },
       },

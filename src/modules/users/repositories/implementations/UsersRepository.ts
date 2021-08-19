@@ -16,7 +16,10 @@ export default class UsersRepository implements IUsersRepository {
   }
 
   async findByEmail(email: string): Promise<User | undefined> {
-    const user = await this.ormRepository.findOne({ where: { email } });
+    const user = await this.ormRepository.findOne({
+      where: { email },
+      relations: ['address'],
+    });
     return user;
   }
 
@@ -31,6 +34,7 @@ export default class UsersRepository implements IUsersRepository {
     lastName,
     password,
     phone,
+    addressId,
   }: ICreateUserDTO): Promise<User> {
     const user = this.ormRepository.create({
       email,
@@ -39,6 +43,7 @@ export default class UsersRepository implements IUsersRepository {
       fullName: `${firstName} ${lastName}`,
       password,
       phone,
+      addressId,
     });
 
     await this.ormRepository.save(user);

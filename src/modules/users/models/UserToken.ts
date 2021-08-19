@@ -19,7 +19,7 @@ class UserToken {
   @Column({ name: 'user_id' })
   userId: string;
 
-  @Column({ name: 'expires_in' })
+  @Column('timestamp with time zone', { name: 'expires_in' })
   expiresIn: Date;
 
   @CreateDateColumn({ name: 'created_at' })

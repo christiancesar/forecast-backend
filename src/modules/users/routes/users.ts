@@ -16,15 +16,15 @@ const resendEmailConfirmationRegisterController =
 
 usersRouter.post(
   '/',
-  celebrate({
-    [Segments.BODY]: {
-      email: Joi.string().email().required(),
-      firstName: Joi.string().required(),
-      lastName: Joi.string().required(),
-      phone: Joi.string().required(),
-      password: Joi.string().required(),
-    },
-  }),
+  // celebrate({
+  //   [Segments.BODY]: {
+  //     email: Joi.string().email().required(),
+  //     firstName: Joi.string().required(),
+  //     lastName: Joi.string().required(),
+  //     phone: Joi.string().required(),
+  //     password: Joi.string().required(),
+  //   },
+  // }),
   usersController.create,
 );
 
@@ -44,9 +44,9 @@ usersRouter.patch(
 );
 
 usersRouter.get(
-  '/resend-email-confirmation-register',
+  '/send-mail-register',
   celebrate({
-    [Segments.QUERY]: {
+    [Segments.BODY]: {
       userId: Joi.string().uuid().required(),
     },
   }),

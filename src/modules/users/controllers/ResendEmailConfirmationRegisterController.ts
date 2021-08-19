@@ -1,16 +1,16 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import ResendEmailRegisterService from '../services/ResendEmailRegisterService';
+import SendEmailRegisterService from '../services/SendEmailRegisterService';
 
 export default class ResendEmailConfirmationRegisterController {
   async create(request: Request, response: Response): Promise<Response> {
-    const { userId } = request.query;
+    const { userId } = request.body;
 
-    const resendEmailRegisterService = container.resolve(
-      ResendEmailRegisterService,
+    const sendEmailRegisterService = container.resolve(
+      SendEmailRegisterService,
     );
 
-    await resendEmailRegisterService.execute({ userId: String(userId) });
+    await sendEmailRegisterService.execute({ userId });
 
     return response.status(204).json();
   }

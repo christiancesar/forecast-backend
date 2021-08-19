@@ -1,7 +1,6 @@
-import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeUsersTokenRepository from '@modules/users/repositories/fakes/FakeUsersTokensRepository';
-import ResendEmailRegisterService from '@modules/users/services/ResendEmailRegisterService';
+import SendEmailRegisterService from '@modules/users/services/SendEmailRegisterService';
 import FakeMailProvider from '@shared/containers/providers/MailProvider/fakes/FakeMailProvider';
 import AppError from '@shared/errors/AppError';
 
@@ -9,7 +8,7 @@ let fakeUsersRepository: FakeUsersRepository;
 let fakeUsersTokenRepository: FakeUsersTokenRepository;
 let fakeMailProvider: FakeMailProvider;
 
-let resendEmailRegisterService: ResendEmailRegisterService;
+let sendEmailRegisterService: SendEmailRegisterService;
 
 describe('Create user service', () => {
   beforeEach(() => {
@@ -17,7 +16,7 @@ describe('Create user service', () => {
     fakeUsersTokenRepository = new FakeUsersTokenRepository();
     fakeMailProvider = new FakeMailProvider();
 
-    resendEmailRegisterService = new ResendEmailRegisterService(
+    sendEmailRegisterService = new SendEmailRegisterService(
       fakeMailProvider,
       fakeUsersRepository,
       fakeUsersTokenRepository,
