@@ -1,10 +1,10 @@
 import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import checkAuthenticated from '@shared/routes/middlewares/checkAuthenticated';
-import ConfirmationRegisterController from '../controllers/ConfirmationRegisterController';
-import SendEmailRegisterController from '../controllers/SendEmailRegisterController';
-import EmailValidateController from '../controllers/EmailValidateController';
-import UsersController from '../controllers/UsersController';
+import ConfirmationRegisterController from '../controllers/UsersControllers/ConfirmationRegisterController';
+import SendEmailRegisterController from '../controllers/UsersControllers/SendEmailRegisterController';
+import EmailValidateController from '../controllers/UsersControllers/EmailValidateController';
+import UsersController from '../controllers/UsersControllers/UsersController';
 
 const usersRouter = Router();
 

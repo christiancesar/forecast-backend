@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import EmailValidateService from '../services/EmailValidateService';
+import EmailValidateService from '../../services/EmailValidateService';
 
 export default class EmailValidateController {
   public async show(request: Request, response: Response): Promise<Response> {

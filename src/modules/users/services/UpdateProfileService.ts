@@ -1,4 +1,5 @@
 import IAddressRepository from '@modules/address/repositories/interfaces/IAddressRepository';
+import ICompaniesRepository from '@modules/companies/repositories/interfaces/ICompaniesRepository';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import IUpdateUserDTO from '../dtos/IUpdateUserDTO';
@@ -16,6 +17,7 @@ interface IRequest {
   password: string;
   oldPassword: string;
   addressId: string;
+  companiesIds: string[];
 }
 
 @injectable()
@@ -29,6 +31,9 @@ export default class UpdateProfileService {
 
     @inject('AddressRepository')
     private addressRepository: IAddressRepository,
+
+    @inject('CompaniesRepository')
+    private companiesRepository: ICompaniesRepository,
   ) {}
 
   async execute({
@@ -41,6 +46,7 @@ export default class UpdateProfileService {
     password,
     phone,
     addressId,
+    companiesIds,
   }: IRequest): Promise<User> {
     const user = await this.usersRepository.findByUserId(userId);
 
@@ -77,6 +83,18 @@ export default class UpdateProfileService {
       }
 
       user.address = address;
+    }
+
+    if (companiesIds) {
+      const companies = await this.companiesRepository.findByCompaniesIds(
+        companiesIds,
+      );
+
+      if (!companies || companies?.length !== companiesIds.length) {
+        throw new AppError('One or more companies not exists!');
+      }
+
+      user.companies = companies;
     }
 
     user.firstName = firstName === user.firstName ? user.firstName : firstName;

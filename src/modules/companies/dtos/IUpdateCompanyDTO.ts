@@ -1,6 +1,7 @@
 import Address from '@modules/address/entities/Address';
 
-export default interface ICreateCompanyDTO {
+export default interface IUpdateCompanyDTO {
+  companyId: string;
   name: string;
   description: string;
   isHeadquarters: boolean;

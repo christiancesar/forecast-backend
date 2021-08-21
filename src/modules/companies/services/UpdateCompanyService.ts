@@ -1,12 +1,11 @@
 import IAddressRepository from '@modules/address/repositories/interfaces/IAddressRepository';
-import User from '@modules/users/entities/User';
-import IUsersRepository from '@modules/users/repositories/interfaces/IUsersRepository';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 import Company from '../entities/Company';
 import ICompaniesRepository from '../repositories/interfaces/ICompaniesRepository';
 
 interface IRequest {
+  companyId: string;
   name: string;
   description: string;
   isHeadquarters: boolean;
@@ -18,7 +17,7 @@ interface IRequest {
 }
 
 @injectable()
-export default class CreateCompanyService {
+export default class UpdateCompanyService {
   constructor(
     @inject('CompaniesRepository')
     private companiesRepository: ICompaniesRepository,
@@ -28,11 +27,12 @@ export default class CreateCompanyService {
   ) {}
 
   public async execute({
+    companyId,
     name,
     description,
-    isHeadquarters,
     email,
     phones,
+    isHeadquarters,
     stateRegistration,
     employerIdentificationNumber,
     addressId,
@@ -43,13 +43,16 @@ export default class CreateCompanyService {
       throw new AppError('Address not exists');
     }
 
-    // const users = await this.usersRepository.findAllUsersId(owners);
+    const companyExists = await this.companiesRepository.findByCompanyId(
+      companyId,
+    );
 
-    // if (!users || owners.length !== users?.length) {
-    //   throw new AppError('One or more users your list not exists!');
-    // }
+    if (!companyExists) {
+      throw new AppError('Company not existis');
+    }
 
-    const company = await this.companiesRepository.createCompany({
+    const company = await this.companiesRepository.updateCompany({
+      companyId,
       name,
       description,
       email,

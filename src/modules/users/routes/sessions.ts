@@ -1,8 +1,8 @@
 import { celebrate, Segments, Joi } from 'celebrate';
 import checkAuthenticated from '@shared/routes/middlewares/checkAuthenticated';
 import { Router } from 'express';
-import AuthenticationController from '../controllers/AuthenticationController';
-import RefreshTokenController from '../controllers/RefreshTokenController';
+import AuthenticationController from '../controllers/SessionControllers/AuthenticationController';
+import RefreshTokenController from '../controllers/SessionControllers/RefreshTokenController';
 
 const sessionsRouter = Router();
 

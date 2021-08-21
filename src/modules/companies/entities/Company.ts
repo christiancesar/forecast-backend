@@ -1,14 +1,11 @@
 // import uploadConfig from '@config/upload';
 
 import Address from '@modules/address/entities/Address';
-import User from '@modules/users/entities/User';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -18,14 +15,6 @@ import {
 export default class Company {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @ManyToMany(() => User)
-  @JoinTable({
-    name: 'users_companies',
-    joinColumns: [{ name: 'company_id' }],
-    inverseJoinColumns: [{ name: 'user_id' }],
-  })
-  owners: User[];
 
   @Column()
   name: string;
@@ -60,10 +49,4 @@ export default class Company {
 
   @UpdateDateColumn({ name: 'updated_at' })
   updatedAt: Date;
-
-  // constructor() {
-  //   if (!this.id) {
-  //     this.id = uuid();
-  //   }
-  // }
 }
