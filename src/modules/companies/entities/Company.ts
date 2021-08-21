@@ -1,11 +1,13 @@
 // import uploadConfig from '@config/upload';
 
 import Address from '@modules/address/entities/Address';
+import Contact from '@modules/contacts/entities/Contact';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -43,6 +45,12 @@ export default class Company {
   })
   @JoinColumn({ name: 'address_id' })
   address: Address;
+
+  @OneToMany(() => Contact, contacts => contacts.company, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'company_id' })
+  contacts: Contact;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

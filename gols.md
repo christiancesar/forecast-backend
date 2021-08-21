@@ -47,7 +47,7 @@ Mudanças
 
 ## SignUp
 
-- [X]  Deve ser obrigatório informar o nome completo, e-mail, senha e número celular
+- [X]  Deve ser obrigatório informar o name completo, e-mail, senha e número celular
 - [X]  Não deve permitir cadastrar um mesmo email
 - [X]  Senha deve conter no mínimo 6 caracteres
 

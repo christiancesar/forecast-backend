@@ -18,6 +18,9 @@ import IAddressRepository from 'modules/address/repositories/interfaces/IAddress
 import CompaniesRepository from '@modules/companies/repositories/implementations/CompaniesRepository';
 import ICompaniesRepository from '@modules/companies/repositories/interfaces/ICompaniesRepository';
 
+import ContactsRepository from '@modules/contacts/repositories/implementations/ContactsRepository';
+import IContactsRepository from '@modules/contacts/repositories/interfaces/IContactsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -41,4 +44,9 @@ container.registerSingleton<IAddressRepository>(
 container.registerSingleton<ICompaniesRepository>(
   'CompaniesRepository',
   CompaniesRepository,
+);
+
+container.registerSingleton<IContactsRepository>(
+  'ContactsRepository',
+  ContactsRepository,
 );
