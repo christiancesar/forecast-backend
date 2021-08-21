@@ -10,7 +10,7 @@ interface IRequest {
 }
 
 @injectable()
-export default class ResendEmailRegisterService {
+export default class SendEmailRegisterService {
   constructor(
     @inject('MailProvider')
     private mailProvider: IMailProvider,

@@ -32,7 +32,6 @@ export default class UsersController {
       lastName,
       password,
       phone,
-      address,
     });
 
     return response.json(classToClass(user));

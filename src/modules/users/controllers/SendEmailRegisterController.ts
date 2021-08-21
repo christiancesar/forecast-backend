@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { container } from 'tsyringe';
 import SendEmailRegisterService from '../services/SendEmailRegisterService';
 
-export default class ResendEmailConfirmationRegisterController {
+export default class SendEmailRegisterController {
   async create(request: Request, response: Response): Promise<Response> {
     const { userId } = request.body;
 

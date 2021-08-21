@@ -1,4 +1,4 @@
-import UserToken from '@modules/users/models/UserToken';
+import UserToken from '@modules/users/entities/UserToken';
 import { v4 as uuid } from 'uuid';
 import IUsersTokensRepository from '../interfaces/IUsersTokensRepository';
 

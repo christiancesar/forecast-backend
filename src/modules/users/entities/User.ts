@@ -1,22 +1,40 @@
 // import uploadConfig from '@config/upload';
 
+import Address from '@modules/address/entities/Address';
+import Company from '@modules/companies/entities/Company';
 import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-import Address from '@modules/address/models/Address';
-
 @Entity('users')
 export default class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
+
+  @OneToOne(() => Address, (address: Address) => address.id, {
+    eager: true,
+    cascade: true,
+  })
+  @JoinColumn({ name: 'address_id' })
+  address: Address;
+
+  @ManyToMany(() => Company, { eager: true })
+  @JoinTable({
+    name: 'users_companies',
+    joinColumns: [{ name: 'user_id' }],
+    inverseJoinColumns: [{ name: 'company_id' }],
+  })
+  companies: Company[];
 
   @Column({ name: 'first_name' })
   firstName: string;
@@ -46,15 +64,6 @@ export default class User {
   @Column({ name: 'confirmed_email' })
   @Exclude()
   confirmedEmail: boolean;
-
-  @OneToOne(() => Address, (address: Address) => address.id, {
-    eager: true,
-  })
-  @JoinColumn({ name: 'address_id' })
-  address: Address;
-
-  @Column({ name: 'address_id' })
-  addressId: string;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;

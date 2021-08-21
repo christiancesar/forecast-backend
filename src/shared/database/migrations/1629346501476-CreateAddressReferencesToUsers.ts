@@ -33,6 +33,6 @@ export default class CreateAddressReferencesToUsers1629346501476
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropForeignKey('users', 'UserAddress');
-    await queryRunner.dropColumn('user', 'address_id');
+    await queryRunner.dropColumn('users', 'address_id');
   }
 }

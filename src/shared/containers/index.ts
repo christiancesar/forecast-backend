@@ -12,8 +12,11 @@ import IRefreshTokenRepository from '@modules/users/repositories/interfaces/IRef
 import UsersTokensRepository from '@modules/users/repositories/implementations/UsersTokensRepository';
 import IUsersTokensRepository from '@modules/users/repositories/interfaces/IUsersTokensRepository';
 
-import AddresRepository from 'modules/address/repositories/implementations/AddressRepository';
+import AddressRepository from 'modules/address/repositories/implementations/AddressRepository';
 import IAddressRepository from 'modules/address/repositories/interfaces/IAddressRepository';
+
+import CompaniesRepository from '@modules/companies/repositories/implementations/CompaniesRepository';
+import ICompaniesRepository from '@modules/companies/repositories/interfaces/ICompaniesRepository';
 
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
@@ -31,6 +34,11 @@ container.registerSingleton<IUsersTokensRepository>(
 );
 
 container.registerSingleton<IAddressRepository>(
-  'AddresRepository',
-  AddresRepository,
+  'AddressRepository',
+  AddressRepository,
+);
+
+container.registerSingleton<ICompaniesRepository>(
+  'CompaniesRepository',
+  CompaniesRepository,
 );

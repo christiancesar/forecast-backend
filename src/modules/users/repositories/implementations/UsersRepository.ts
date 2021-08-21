@@ -1,6 +1,6 @@
-import { ICreateUserDTO } from '@modules/users/dto/ICreateUserDTO';
-import { getRepository, Repository } from 'typeorm';
-import User from '../../models/User';
+import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
+import { getRepository, In, Repository } from 'typeorm';
+import User from '../../entities/User';
 import IUsersRepository from '../interfaces/IUsersRepository';
 
 export default class UsersRepository implements IUsersRepository {
@@ -15,16 +15,22 @@ export default class UsersRepository implements IUsersRepository {
     return users;
   }
 
+  async findAllUsersId(userIds: string[]): Promise<User[] | undefined> {
+    const users = await this.ormRepository.find({ id: In(userIds) });
+    return users;
+  }
+
   async findByEmail(email: string): Promise<User | undefined> {
     const user = await this.ormRepository.findOne({
       where: { email },
-      relations: ['address'],
     });
     return user;
   }
 
   async findByUserId(userId: string): Promise<User | undefined> {
-    const user = await this.ormRepository.findOne({ where: { id: userId } });
+    const user = await this.ormRepository.findOne({
+      where: { id: userId },
+    });
     return user;
   }
 
@@ -34,7 +40,6 @@ export default class UsersRepository implements IUsersRepository {
     lastName,
     password,
     phone,
-    addressId,
   }: ICreateUserDTO): Promise<User> {
     const user = this.ormRepository.create({
       email,
@@ -43,7 +48,6 @@ export default class UsersRepository implements IUsersRepository {
       fullName: `${firstName} ${lastName}`,
       password,
       phone,
-      addressId,
     });
 
     await this.ormRepository.save(user);

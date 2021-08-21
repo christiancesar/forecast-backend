@@ -1,3 +1,5 @@
+import Address from '@modules/address/entities/Address';
+
 export default interface IUpdateUserDTO {
   userId: string;
   firstName: string;
@@ -8,4 +10,5 @@ export default interface IUpdateUserDTO {
   password: string;
   old_password: string;
   // avatar: string;
+  address: Address;
 }

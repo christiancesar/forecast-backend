@@ -1,4 +1,4 @@
-import RefreshToken from '@modules/users/models/RefreshToken';
+import RefreshToken from '@modules/users/entities/RefreshToken';
 import { getRepository, Repository } from 'typeorm';
 import IRefreshTokenRepository from '../interfaces/IRefreshTokenRepository';
 

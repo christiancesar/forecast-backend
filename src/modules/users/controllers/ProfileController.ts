@@ -24,7 +24,8 @@ export default class ProfileController {
       email,
       individualTaxNumber,
       password,
-      old_password,
+      oldPassword,
+      addressId,
     } = request.body;
 
     const updateProfileService = container.resolve(UpdateProfileService);
@@ -37,7 +38,8 @@ export default class ProfileController {
       email,
       individualTaxNumber,
       password,
-      old_password,
+      oldPassword,
+      addressId,
     });
 
     return response.json(classToClass(user));

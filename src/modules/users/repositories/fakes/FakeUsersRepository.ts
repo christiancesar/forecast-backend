@@ -1,6 +1,6 @@
-import { ICreateUserDTO } from '@modules/users/dto/ICreateUserDTO';
+import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
 import { v4 as uuid } from 'uuid';
-import User from '../../models/User';
+import User from '../../entities/User';
 import IUsersRepository from '../interfaces/IUsersRepository';
 
 export default class FakeUsersRepository implements IUsersRepository {

@@ -1,9 +1,22 @@
+import IAddressRepository from '@modules/address/repositories/interfaces/IAddressRepository';
 import AppError from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
-import IUpdateUserDTO from '../dto/IUpdateUserDTO';
-import IUsersRepository from '../repositories/interfaces/IUsersRepository';
+import IUpdateUserDTO from '../dtos/IUpdateUserDTO';
+import User from '../entities/User';
 import IHashProvider from '../providers/HashProvider/interfaces/IHashProvider';
-import User from '../models/User';
+import IUsersRepository from '../repositories/interfaces/IUsersRepository';
+
+interface IRequest {
+  userId: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  email: string;
+  individualTaxNumber: string;
+  password: string;
+  oldPassword: string;
+  addressId: string;
+}
 
 @injectable()
 export default class UpdateProfileService {
@@ -13,6 +26,9 @@ export default class UpdateProfileService {
 
     @inject('HashProvider')
     private hashProvider: IHashProvider,
+
+    @inject('AddressRepository')
+    private addressRepository: IAddressRepository,
   ) {}
 
   async execute({
@@ -21,10 +37,11 @@ export default class UpdateProfileService {
     firstName,
     individualTaxNumber,
     lastName,
-    old_password,
+    oldPassword,
     password,
     phone,
-  }: IUpdateUserDTO): Promise<User> {
+    addressId,
+  }: IRequest): Promise<User> {
     const user = await this.usersRepository.findByUserId(userId);
 
     if (!user) {
@@ -40,9 +57,9 @@ export default class UpdateProfileService {
       user.email = email;
     }
 
-    if (password && old_password) {
+    if (password && oldPassword) {
       const checkOldPassword = await this.hashProvider.compareHash(
-        old_password,
+        oldPassword,
         user.password,
       );
 
@@ -51,6 +68,15 @@ export default class UpdateProfileService {
       }
 
       user.password = await this.hashProvider.generateHash(password);
+    }
+
+    if (addressId) {
+      const address = await this.addressRepository.findByAddressId(addressId);
+      if (!address) {
+        throw new AppError('Address not exists!');
+      }
+
+      user.address = address;
     }
 
     user.firstName = firstName === user.firstName ? user.firstName : firstName;

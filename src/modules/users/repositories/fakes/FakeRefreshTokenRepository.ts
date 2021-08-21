@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import RefreshToken from '@modules/users/models/RefreshToken';
+import RefreshToken from '@modules/users/entities/RefreshToken';
 import IRefreshTokenRepository from '../interfaces/IRefreshTokenRepository';
 
 export default class RefreshTokenRepository implements IRefreshTokenRepository {

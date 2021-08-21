@@ -2,7 +2,7 @@ import { celebrate, Joi, Segments } from 'celebrate';
 import { Router } from 'express';
 import checkAuthenticated from '@shared/routes/middlewares/checkAuthenticated';
 import ConfirmationRegisterController from '../controllers/ConfirmationRegisterController';
-import SendEmailConfirmationRegisterController from '../controllers/SendEmailConfirmationRegisterController';
+import SendEmailRegisterController from '../controllers/SendEmailRegisterController';
 import EmailValidateController from '../controllers/EmailValidateController';
 import UsersController from '../controllers/UsersController';
 
@@ -11,8 +11,7 @@ const usersRouter = Router();
 const usersController = new UsersController();
 const confirmationRegisterController = new ConfirmationRegisterController();
 const emailValidateController = new EmailValidateController();
-const sendEmailConfirmationRegisterController =
-  new SendEmailConfirmationRegisterController();
+const sendEmailRegisterController = new SendEmailRegisterController();
 
 usersRouter.post(
   '/',
@@ -50,7 +49,7 @@ usersRouter.get(
       userId: Joi.string().uuid().required(),
     },
   }),
-  sendEmailConfirmationRegisterController.create,
+  sendEmailRegisterController.create,
 );
 
 usersRouter.get('/', checkAuthenticated, usersController.index);

@@ -1,10 +1,7 @@
-import path from 'path';
-import { inject, injectable } from 'tsyringe';
-import IMailProvider from '@shared/containers/providers/MailProvider/interfaces/IMailProvider';
-import AppError from '@shared/errors/AppError';
-import Address from '@modules/address/models/Address';
 import IAddressRepository from '@modules/address/repositories/interfaces/IAddressRepository';
-import User from '../models/User';
+import AppError from '@shared/errors/AppError';
+import { inject, injectable } from 'tsyringe';
+import User from '../entities/User';
 import IHashProvider from '../providers/HashProvider/interfaces/IHashProvider';
 import IUsersRepository from '../repositories/interfaces/IUsersRepository';
 import IUsersTokensRepository from '../repositories/interfaces/IUsersTokensRepository';
@@ -15,10 +12,6 @@ interface RequestDTO {
   phone: string;
   email: string;
   password: string;
-}
-
-interface ICreateUserServiceDTO extends RequestDTO {
-  address: Address;
 }
 
 @injectable()
@@ -32,9 +25,6 @@ export default class CreateUserService {
 
     @inject('UsersTokensRepository')
     private usersTokensRepository: IUsersTokensRepository,
-
-    @inject('AddresRepository')
-    private addressRepository: IAddressRepository,
   ) {}
 
   public async execute({
@@ -43,8 +33,7 @@ export default class CreateUserService {
     lastName,
     password,
     phone,
-    address,
-  }: ICreateUserServiceDTO): Promise<
+  }: RequestDTO): Promise<
     Omit<User, 'individualTaxNumber' | 'emailConfirmed'>
   > {
     const userExist = await this.usersRepository.findByEmail(email);
@@ -52,8 +41,6 @@ export default class CreateUserService {
     if (userExist) {
       throw new AppError('Already exist user with this email!');
     }
-
-    const newAddres = await this.addressRepository.createAddress(address);
 
     const hasPassword = await this.hashProvider.generateHash(password);
 
@@ -63,7 +50,6 @@ export default class CreateUserService {
       lastName,
       password: hasPassword,
       phone,
-      addressId: newAddres.id,
     });
 
     return user;

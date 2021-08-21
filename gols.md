@@ -146,16 +146,21 @@ type CompanyType {
 ```ts
 interface Company {
 	uuid: string;
-	companyType: CompanyType;
-	imageUrl: string;
 	owners: User[];
 	name: string;
+  description: string;
+  isHeadquarters: boolean
 	email: string;
+  phones: string[]
 	stateRegistration: number;
 	employerIdentificationNumber: number;
-	employees: User[];
 	providers: Company[]
 	address: Address;
+
+  //nest update
+	imageUrl: string;
+  companyType: CompanyType;
+  employees: User[];
 }
 ```
 
@@ -171,9 +176,12 @@ interface Address {
 	city: string;
 	state: string;
 	state_acronym: string
-	postal_code: string; // pattern: /^\d{5}-?\d{3}$/
+	postal_code: string;
 	lat: number;
 	lng: number;
+
+  //validation frontend
+  // pattern: /^\d{5}-?\d{3}$/
 }
 
 ```

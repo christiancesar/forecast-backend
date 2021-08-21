@@ -33,7 +33,7 @@ describe('Create user service', () => {
       phone: '65999999999',
     });
 
-    await resendEmailRegisterService.execute({ userId: user.id });
+    await SendEmailRegisterService.execute({ userId: user.id });
 
     expect(sendMail).toHaveBeenCalled();
   });
@@ -48,7 +48,7 @@ describe('Create user service', () => {
     });
 
     await expect(
-      resendEmailRegisterService.execute({ userId: 'user-not-exists' }),
+      SendEmailRegisterService.execute({ userId: 'user-not-exists' }),
     ).rejects.toBeInstanceOf(AppError);
   });
 });
