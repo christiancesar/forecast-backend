@@ -21,6 +21,12 @@ import ICompaniesRepository from '@modules/companies/repositories/interfaces/ICo
 import ContactsRepository from '@modules/contacts/repositories/implementations/ContactsRepository';
 import IContactsRepository from '@modules/contacts/repositories/interfaces/IContactsRepository';
 
+import ItemsRepository from '@modules/items/repositories/implementations/ItemsRepository';
+import IItemsRepository from '@modules/items/repositories/interfaces/IItemsRepository';
+
+import SubItemsRepository from '@modules/items/repositories/implementations/SubItemsRepository';
+import ISubItemsRepository from '@modules/items/repositories/interfaces/ISubItemsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -49,4 +55,14 @@ container.registerSingleton<ICompaniesRepository>(
 container.registerSingleton<IContactsRepository>(
   'ContactsRepository',
   ContactsRepository,
+);
+
+container.registerSingleton<IItemsRepository>(
+  'ItemsRepository',
+  ItemsRepository,
+);
+
+container.registerSingleton<ISubItemsRepository>(
+  'SubItemsRepository',
+  SubItemsRepository,
 );

@@ -196,32 +196,22 @@ type TransporterResponsibility = ["Company","Provider"];
 
 ```ts
 interface Order {
-	uuid: string;
-	createdBy: User;
-	cloused: boolean;
-	owner: Company;
-	orderItemId: OrderItem;
-	providers: Company[];
-	shortId: string;
-	description: string;
-	schedulesInitial: Date;
-	schedulesFinal: Date;
-	expiresIn: Date;
-	quantityOfItems: number;
-	transporterResposability: TransporterResponsibility;
-	createdAt: Date;
-	updatedAt: Date;
-}
-```
-
-### Order Item
-
-```ts
-interface OrderItem {
-	uuid: string;
-	itemId: number;
-	description: string;
-	quantity: string;
+  uuid: string;
+  createdBy: User;
+  cloused: boolean;
+  shortId: string;
+  description: string;
+  schedulesInitial: Date;
+  schedulesFinal: Date;
+  expiresIn: Date;
+  quantityOfItems: number;
+  owner: Company;
+  items: Item[];
+  providers: Company[];
+  transporterResposability: TransporterResponsibility;
+  budgets: Budget
+  createdAt: Date;
+  updatedAt: Date;
 }
 ```
 
@@ -238,6 +228,7 @@ interface Item {
 	totalPrice: number;
 	comments: string;
 	imageUrl: string;
+  subItems: Item[]
 }
 ```
 
