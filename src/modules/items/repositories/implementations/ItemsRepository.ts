@@ -1,5 +1,5 @@
-import ICreateItemDTO from '@modules/items/dtos/ICreateItemDTO';
-import IUpdateItemDTO from '@modules/items/dtos/IUpdateItemDTO';
+import ICreateItemDTO from '@modules/items/dtos/items/ICreateItemDTO';
+import IUpdateItemDTO from '@modules/items/dtos/items/IUpdateItemDTO';
 import Item from '@modules/items/entities/Item';
 import { getRepository, Repository } from 'typeorm';
 import IItemsRepository from '../interfaces/IItemsRepository';
@@ -12,7 +12,7 @@ export default class ItemsRepository implements IItemsRepository {
   }
 
   async createItem(data: ICreateItemDTO): Promise<Item> {
-    const item = this.ormRepository.create(data.item);
+    const item = this.ormRepository.create(data);
     await this.ormRepository.save(item);
     return item;
   }
@@ -27,7 +27,7 @@ export default class ItemsRepository implements IItemsRepository {
     return items;
   }
 
-  async updateItem(data: Item): Promise<Item> {
+  async updateItem(data: IUpdateItemDTO): Promise<Item> {
     const item = await this.ormRepository.save(data);
     return item;
   }

@@ -7,8 +7,9 @@ import {
   CreateDateColumn,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   OneToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -39,11 +40,12 @@ export default class Company {
   @Column({ name: 'employer_identification_number' })
   employerIdentificationNumber: string;
 
-  @OneToOne(() => Address, {
-    eager: true,
-    cascade: true,
+  @ManyToMany(() => Address, { eager: true, cascade: true })
+  @JoinTable({
+    name: 'companies_address',
+    joinColumns: [{ name: 'company_id' }],
+    inverseJoinColumns: [{ name: 'address_id' }],
   })
-  @JoinColumn({ name: 'address_id' })
   address: Address;
 
   @OneToMany(() => Contact, contacts => contacts.company, {

@@ -39,10 +39,6 @@ export default class SubItem {
   @Column()
   comments: string;
 
-  @ManyToOne(() => Item, item => item.subItems)
-  @JoinColumn({ name: 'item_id' })
-  item: Item;
-
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 

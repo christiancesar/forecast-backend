@@ -1,7 +1,7 @@
 import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHashProvider';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 import FakeUsersTokenRepository from '@modules/users/repositories/fakes/FakeUsersTokensRepository';
-import CreateUserService from '@modules/users/services/CreateUserService';
+import CreateUserService from '@modules/users/services/users/CreateUserService';
 import FakeMailProvider from '@shared/containers/providers/MailProvider/fakes/FakeMailProvider';
 import AppError from '@shared/errors/AppError';
 

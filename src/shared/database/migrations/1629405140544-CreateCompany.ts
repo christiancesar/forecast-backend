@@ -14,11 +14,6 @@ export default class CreateCompany1629405140544 implements MigrationInterface {
             default: 'uuid_generate_v4()',
           },
           {
-            name: 'address_id',
-            type: 'uuid',
-            isNullable: true,
-          },
-          {
             name: 'name',
             type: 'varchar',
             isNullable: true,
@@ -62,16 +57,6 @@ export default class CreateCompany1629405140544 implements MigrationInterface {
             name: 'updated_at',
             type: 'timestamp',
             default: 'now()',
-          },
-        ],
-        foreignKeys: [
-          {
-            name: 'AddressCompany',
-            columnNames: ['address_id'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'address',
-            onDelete: 'SET NULL',
-            onUpdate: 'CASCADE',
           },
         ],
       }),

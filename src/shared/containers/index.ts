@@ -27,6 +27,15 @@ import IItemsRepository from '@modules/items/repositories/interfaces/IItemsRepos
 import SubItemsRepository from '@modules/items/repositories/implementations/SubItemsRepository';
 import ISubItemsRepository from '@modules/items/repositories/interfaces/ISubItemsRepository';
 
+import TransportersRepository from '@modules/transporter/repositories/implementations/TransportersRepository';
+import ITransportersRepository from '@modules/transporter/repositories/interfaces/ITransportersRepository';
+
+import PaymentsRepository from '@modules/payments/repositories/implementations/PaymentsRepository';
+import IPaymentsRepository from '@modules/payments/repositories/interfaces/IPaymentsRepository';
+
+import BudgetsRepository from '@modules/budgets/repositories/implementations/BudgetsRepository';
+import IBudgetsRepository from '@modules/budgets/repositories/interfaces/IBudgetsRepository';
+
 container.registerSingleton<IUsersRepository>(
   'UsersRepository',
   UsersRepository,
@@ -65,4 +74,17 @@ container.registerSingleton<IItemsRepository>(
 container.registerSingleton<ISubItemsRepository>(
   'SubItemsRepository',
   SubItemsRepository,
+);
+
+container.registerSingleton<ITransportersRepository>(
+  'TransportersRepository',
+  TransportersRepository,
+);
+container.registerSingleton<IPaymentsRepository>(
+  'PaymentsRepository',
+  PaymentsRepository,
+);
+container.registerSingleton<IBudgetsRepository>(
+  'BudgetRepository',
+  BudgetsRepository,
 );

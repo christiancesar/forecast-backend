@@ -1,4 +1,5 @@
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
+import IUpdateUserDTO from '@modules/users/dtos/IUpdateUserDTO';
 import User from '@modules/users/entities/User';
 
 export default interface IUsersRepository {
@@ -10,13 +11,7 @@ export default interface IUsersRepository {
 
   findByUserId(userId: string): Promise<User | undefined>;
 
-  createUser({
-    email,
-    firstName,
-    lastName,
-    password,
-    phone,
-  }: ICreateUserDTO): Promise<User>;
+  createUser(data: ICreateUserDTO): Promise<User>;
 
-  saveUser(user: User): Promise<User>;
+  updateUser(user: IUpdateUserDTO): Promise<User>;
 }

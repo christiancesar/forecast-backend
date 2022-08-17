@@ -1,17 +1,37 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import CreateItemService from '../services/CreateItemService';
-import ListItemsService from '../services/ListItemsService';
-import ShowItemService from '../services/ShowItemService';
-import UpdateItemService from '../services/UpdateItemService';
+import CreateItemService from '../services/items/CreateItemService';
+import ListItemsService from '../services/items/ListItemsService';
+import ShowItemService from '../services/items/ShowItemService';
+import UpdateItemService from '../services/items/UpdateItemService';
 
 export default class ItemsController {
   async create(request: Request, response: Response): Promise<Response> {
-    const { item } = request.body;
+    const {
+      name,
+      model,
+      brand,
+      quantity,
+      price,
+      discontPercent,
+      discontValue,
+      totalPrice,
+      comments,
+    } = request.body;
 
     const createItemService = container.resolve(CreateItemService);
 
-    const createdItem = await createItemService.execute({ item });
+    const createdItem = await createItemService.execute({
+      name,
+      model,
+      brand,
+      quantity,
+      price,
+      discontPercent,
+      discontValue,
+      totalPrice,
+      comments,
+    });
 
     return response.json({ item: createdItem });
   }
@@ -35,13 +55,36 @@ export default class ItemsController {
   }
 
   async update(request: Request, response: Response): Promise<Response> {
-    const { item } = request.body;
+    const {
+      itemId,
+      name,
+      model,
+      brand,
+      quantity,
+      price,
+      discontPercent,
+      discontValue,
+      totalPrice,
+      comments,
+      subItems,
+    } = request.body;
 
     const updateItemService = container.resolve(UpdateItemService);
 
-    const updatedItem = await updateItemService.execute({ item });
+    const updatedItem = await updateItemService.execute({
+      itemId,
+      name,
+      model,
+      brand,
+      quantity,
+      price,
+      discontPercent,
+      discontValue,
+      totalPrice,
+      comments,
+      subItems,
+    });
 
     return response.json({ item: updatedItem });
-    return response.json();
   }
 }

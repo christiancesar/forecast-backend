@@ -2,7 +2,7 @@ import FakeHashProvider from '@modules/users/providers/HashProvider/fakes/FakeHa
 import FakeRefreshTokenRepository from '@modules/users/repositories/fakes/FakeRefreshTokenRepository';
 import FakeUsersRepository from '@modules/users/repositories/fakes/FakeUsersRepository';
 
-import AuthenticationService from '@modules/users/services/AuthenticationService';
+import AuthenticationService from '@modules/users/services/authentications/AuthenticationService';
 import AppError from '@shared/errors/AppError';
 
 let fakeUsersRepository: FakeUsersRepository;

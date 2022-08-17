@@ -243,6 +243,38 @@ interface Transporter {
 }
 ```
 
+### Payment
+
+```ts
+interface Payment {
+  totalAmount: 100,
+  method: ["CARD", "PIX", "MONEY", "BANKTRANSFER"]
+  card?: {
+    individualTaxNumber: "432412",
+    documentHolderName: "Name"
+    transactionsNumber: "065465441"
+  },
+  bankAccount?: {
+    bankName: "bank",
+    bankNumber: 123,
+    number: 001,
+    numberDigit: 0,
+    branchCode: 0,
+    branchCodeDigit: 0,
+    document: {
+      type: ["CPF","CNPJ"],
+      number: "432412",
+      documentHolderName: "Name"
+    }
+  },
+  pix?: {
+    type: ["CPF","CNPJ","PHONE", "MAIL", "KEYRANDOM"],
+    number: "432412",
+    documentHolderName: "Name"
+  }
+}
+```
+
 ### Budget
 
 ```ts
@@ -252,7 +284,6 @@ interface Budget {
 	accepted: boolean;
 	provider: Company;
 	responsibleSeller: string
-	order: Order;
 	items: Item[];
 	payments: Payment[];
 	transporter: Transporter;
@@ -262,4 +293,21 @@ interface Budget {
 	totalPrice: number;
 	comments: string;
 }
+```
+
+
+## Tabelas Pivô
+[X] Refotar items e subItems, criei uma tabela pivo -> 24/08/21 20:40 | 22:50
+
+[ ] Refatorar address com company e address com users
+
+[ ] So depois continuar a implementacao de budget que deve ter todas os relacionamentos lincados por uma tabela pivo
+
+```ts
+Order <-> Payment => OrderToPayments
+Order <-> Items => OrderToItems
+
+Budget <-> Payment => BudgetToPayments
+Budget <-> Items => BudgetToItems
+
 ```

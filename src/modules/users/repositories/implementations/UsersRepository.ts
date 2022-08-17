@@ -1,4 +1,5 @@
 import { ICreateUserDTO } from '@modules/users/dtos/ICreateUserDTO';
+import IUpdateUserDTO from '@modules/users/dtos/IUpdateUserDTO';
 import { getRepository, In, Repository } from 'typeorm';
 import User from '../../entities/User';
 import IUsersRepository from '../interfaces/IUsersRepository';
@@ -10,13 +11,36 @@ export default class UsersRepository implements IUsersRepository {
     this.ormRepository = getRepository(User);
   }
 
+  public async createUser({
+    email,
+    firstName,
+    lastName,
+    password,
+    phone,
+    address,
+  }: ICreateUserDTO): Promise<User> {
+    const user = this.ormRepository.create({
+      email,
+      firstName,
+      lastName,
+      fullName: `${firstName} ${lastName}`,
+      password,
+      phone,
+      address,
+    });
+
+    await this.ormRepository.save(user);
+
+    return user;
+  }
+
   async findAll(): Promise<User[]> {
     const users = await this.ormRepository.find();
     return users;
   }
 
   async findAllUsersId(userIds: string[]): Promise<User[] | undefined> {
-    const users = await this.ormRepository.find({ id: In(userIds) });
+    const users = await this.ormRepository.findByIds(userIds);
     return users;
   }
 
@@ -34,29 +58,30 @@ export default class UsersRepository implements IUsersRepository {
     return user;
   }
 
-  public async createUser({
+  async updateUser({
+    userId,
     email,
     firstName,
     lastName,
+    fullName,
+    individualTaxNumber,
     password,
     phone,
-  }: ICreateUserDTO): Promise<User> {
-    const user = this.ormRepository.create({
+    companies,
+    address,
+  }: IUpdateUserDTO): Promise<User> {
+    const userUpdate = await this.ormRepository.save({
+      id: userId,
       email,
+      fullName,
       firstName,
       lastName,
-      fullName: `${firstName} ${lastName}`,
+      individualTaxNumber,
       password,
       phone,
+      companies,
+      address,
     });
-
-    await this.ormRepository.save(user);
-
-    return user;
-  }
-
-  async saveUser(user: User): Promise<User> {
-    const userUpdate = await this.ormRepository.save(user);
     return userUpdate;
   }
 }

@@ -24,11 +24,6 @@ export default class CreateSubItems1629603345325 implements MigrationInterface {
             isNullable: true,
           },
           {
-            name: 'item_id',
-            type: 'uuid',
-            isNullable: true,
-          },
-          {
             name: 'name',
             type: 'varchar',
           },
@@ -79,16 +74,6 @@ export default class CreateSubItems1629603345325 implements MigrationInterface {
             name: 'updated_at',
             type: 'timestamp',
             default: 'now()',
-          },
-        ],
-        foreignKeys: [
-          {
-            name: 'FKItems',
-            columnNames: ['item_id'],
-            referencedColumnNames: ['id'],
-            referencedTableName: 'items',
-            onDelete: 'SET NULL',
-            onUpdate: 'CASCADE',
           },
         ],
       }),

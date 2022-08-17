@@ -2,7 +2,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  JoinTable,
+  ManyToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -37,9 +38,17 @@ export default class Item {
   @Column()
   comments: string;
 
-  @OneToMany(() => SubItem, subItem => subItem.item, {
-    cascade: true,
-    eager: true,
+  // @OneToMany(() => SubItem, subItem => subItem.item, {
+  //   cascade: true,
+  //   eager: true,
+  // })
+  // subItems: SubItem[];
+
+  @ManyToMany(() => SubItem, { eager: true, cascade: true })
+  @JoinTable({
+    name: 'items_subitems',
+    joinColumns: [{ name: 'item_id' }],
+    inverseJoinColumns: [{ name: 'sub_item_id' }],
   })
   subItems: SubItem[];
 

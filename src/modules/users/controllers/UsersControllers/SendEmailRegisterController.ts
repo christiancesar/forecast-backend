@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { container } from 'tsyringe';
-import SendEmailRegisterService from '../../services/SendEmailRegisterService';
+import SendEmailRegisterService from '../../services/users/SendEmailRegisterService';
 
 export default class SendEmailRegisterController {
   async create(request: Request, response: Response): Promise<Response> {

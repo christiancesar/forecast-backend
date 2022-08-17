@@ -7,10 +7,8 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
-  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -20,14 +18,15 @@ export default class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => Address, (address: Address) => address.id, {
-    eager: true,
-    cascade: true,
+  @ManyToMany(() => Address, { eager: true, cascade: true })
+  @JoinTable({
+    name: 'users_address',
+    joinColumns: [{ name: 'user_id' }],
+    inverseJoinColumns: [{ name: 'address_id' }],
   })
-  @JoinColumn({ name: 'address_id' })
   address: Address;
 
-  @ManyToMany(() => Company, { eager: true })
+  @ManyToMany(() => Company, { eager: true, cascade: true })
   @JoinTable({
     name: 'users_companies',
     joinColumns: [{ name: 'user_id' }],
